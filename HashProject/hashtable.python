@@ -1,0 +1,156 @@
+class hashtable:
+    """It's a hashtable..."""
+    
+    __bucketuse = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    __table = {} # The actual hash table
+    __used = 0.0 # The number of entries in the table
+
+    def __init__(self, keys=None):
+        if keys:
+           for key in keys:
+               self.__table[key] = None
+	self.__bucketuse = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    def clear(self):
+    	self.__bucketuse = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    def buckets(self):
+    	return self.__bucketuse
+
+    def bucketfill(self):
+    	if self.__used == 0:
+    		return self.__bucketuse
+    	else:
+	    	fill = []
+    		for i in range(8):
+    			fill.append((self.__bucketuse[i] / 2197) * 100)
+    		return fill
+
+    def __len__(self):
+        return len(self.__table)
+
+    def chiSquared(self):
+    	if table.__used == 0:
+	   return 0.0
+	expected = self.__used / 8
+	terms = []
+	for item in self.__bucketuse:
+	    terms.append(item)
+	terms = [elem-expected for elem in terms]
+	terms = [elem*elem for elem in terms]
+	terms = [elem/expected for elem in terms]
+
+	squaredChi = 0
+	for term in terms:
+	    squaredChi += term
+
+	return squaredChi
+
+    # method to put put a key/data pair into the table
+    def put(self, item):
+ 		key = item[0]
+ 		if key < 2197:
+ 			self.__bucketuse[0] += 1
+ 		elif key < 4394:
+ 			self.__bucketuse[1] += 1
+ 		elif key < 6591:
+ 			self.__bucketuse[2] += 1
+ 		elif key < 8788:
+ 			self.__bucketuse[3] += 1
+ 		elif key < 10985:
+ 			self.__bucketuse[4] += 1
+ 		elif key < 13182:
+ 			self.__bucketuse[5] += 1
+ 		elif key < 15379:
+ 			self.__bucketuse[6] += 1
+ 		else:
+ 			self.__bucketuse[7] += 1
+
+ 		self.__table[item[0]] = item[1]
+ 		self.__used += 1
+
+    def display(self):
+        print self.__table
+
+    def getKey(self, key):
+        return self.__table[key]
+
+    def fill(self):
+        if self.__used == 0:
+            return 0.0
+        else:
+            return (self.__used / (len(self.__table) + 0.0))*100
+
+    def stats(self):
+        print "Table Size: %d" % len(self.__table)
+        print "Used Keys: %d" % self.__used
+        print "Fill Factor: %f percent" % self.fill()
+        
+	def clear(self):
+		self.__table.clear()
+
+# Get the name of the data file from the command line
+import sys
+dataFile = sys.argv[1]
+
+# Read in the file and store the data in a useful way.
+file = open(dataFile, "r")
+data = file.read()
+file.close()
+data = data.split()
+
+# Generate all potential keys.
+keys = []
+for i in range(17576): # 17576 is the max number of airport codes
+    keys.append(i)
+
+# Generate actual keys for data.
+actualkeys = []
+for code in data:
+    A = (ord(code[0])-65)*26*26
+    B = (ord(code[1])-65)*26
+    C = (ord(code[2])-65)
+    key = (A^B^C) % 17576
+    actualkeys.append(key)
+
+
+# Put random subsets of varying length from 200-299 into hashtable and
+# check fill factor
+import random
+
+# The largest size must not be bigger than the number of unique keys or
+# an infinite loop will result
+
+#sizes = [200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 299]
+#sizes = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 299]
+sizes = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 299]
+
+for i in range(len(sizes)):
+    subset = []
+
+    while len(subset) < sizes[i]:
+    	  index = random.randrange(0,len(data),1)
+	  if data[index] in subset:
+	     pass
+	  else:
+		subset.append(data[index])
+
+    # Set up the table for the data.
+    table = hashtable(keys)
+
+    # Populate the table with actual data
+    maxKey = 0
+    for code in subset:
+        A = (ord(code[0])-65)*26*26
+	B = (ord(code[1])-65)*26
+	C = (ord(code[2])-65)
+	key = (A^B^C) % 17576
+	if key > maxKey:
+	   maxKey = key
+	   maxCode = code
+	table.put([key,code])
+
+    print "{%f, %f}," % (table.fill(), table.chiSquared())
+	
+    for i in range(len(subset)):
+    	subset.pop()

@@ -1,0 +1,77 @@
+BODY {
+  color: #000000;
+  background: #bbbbbb url(http://nonhuman.net/images/pleasure.gif);
+  font-family: 'lucida grande', verdana, sans-serif;
+  font-size: 12px;
+}
+
+#title {
+  background: #ffffff;
+  background-position: 0% 0%;
+  border: 1px solid #000;
+}
+
+#table {
+  border: 1px dashed #000;
+  width: 48%;
+  padding: 3px;
+}
+
+H1 {
+  margin-left: 100px;
+  font-size: 3.7em;
+  text-shadow: 3px 3px 3px #666;
+}
+
+H2 {
+  margin-left: 100px;
+}
+
+#language-box {
+  border: 1px solid #000;
+  font-size: 0.75em;
+  text-align: center;
+  height: 100px;
+  width: 33px;
+  float: right;
+}
+
+#body {
+  background: #ffffff;
+  border: 1px solid #000;
+  margin-top: 3px;
+  padding: 3px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#bottom {
+  position: absolute;
+  bottom: 3px;
+  padding: 5px;
+  margin-top: 3px;
+}
+
+/*
+     FILE ARCHIVED ON 05:28:01 Jun 27, 2007 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 14:01:23 Feb 20, 2021.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  exclusion.robots: 0.23
+  LoadShardBlock: 94.477 (3)
+  PetaboxLoader3.resolve: 42.377
+  RedisCDXSource: 782.345
+  PetaboxLoader3.datanode: 286.756 (4)
+  CDXLines.iter: 21.206 (3)
+  captures_list: 901.982
+  exclusion.robots.policy: 0.215
+  esindex: 0.011
+  load_resource: 248.495
+*/

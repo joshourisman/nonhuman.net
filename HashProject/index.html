@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>HashProject</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<style type="text/css">
+	@import url(/crud/newstyle.css);
+</style>
+</head>
+<body>
+
+<div id="body">
+<h1>Josh Ourisman's Hash Project</h1>
+<h2>Considering Hash Uniformity as a function of Fill-Factor</h2>
+</div>
+
+<div id="body">
+<h3>Purpose:</h3>
+<p>To examine the relationship between the uniformity of a hash function and the fill-factor of the corresponding hash table, determine if there is a meaningful relationship between the two, and, if there is, try and maximize the uniformity by adjusting the fill-factor.</p>
+<h3>Methods:</h3>
+<p>Using <a href="https://web.archive.org/web/20040729034857/http://www.python.org/">Python</a> I wrote a hash table and function (<a href="hashtable.python">hashtable.python</a>) the purpose of which was to hash the airport codes in <a href="prog04d.txt">prog04d.txt</a>.  The table was designed so that it would be able to hold every possible combination of three capital letters (AAA-ZZZ) and thus every possible airport code.  The function was designed to simply hash the provided codes into the table without much regard to the performance of the function, and works by considering each code as a 3-digit base-26 number, bitwise XORing the digits together, and then modding the result by 17576 (the maximum number of possible airport codes.  Although this hash function was not designed to do anything other than a very basic hash it does provide a unique key for every code in <a href="prog04d.txt">prog04d.txt</a> (except for the four sets of duplicates) and so the table does not deal with collisions.</p>
+<p>Once this was done I repeatedly fed the same data into the table, each time varying how much of the data was used (first 200 entries, then 210, then 220, ..., then 299) and observed the uniformity of the table.  The table was divided into 8 "buckets" of 2197 entries in order that the fill-factor be more significant than the just over 1% seen otherwise, and then using the chi-squared test measured the uniformity of the distribution of entries in the table.</p>
+<h3>Results and Observations:</h3>
+<table cellpadding="8"><tr><td>
+<p><h4>Fill Factor of entire table with variable size data sets:</h4>
+run 1  (200 Airport Codes): 1.137915%<br/>
+run 2  (210 Airport Codes): 1.194811%<br/>
+run 3  (220 Airport Codes): 1.251707%<br/>
+run 4  (230 Airport Codes): 1.308603%<br/>
+run 5  (240 Airport Codes): 1.365498%<br/>
+run 6  (250 Airport Codes): 1.422394%<br/>
+run 7  (260 Airport Codes): 1.479290%<br/>
+run 8  (270 Airport Codes): 1.536186%<br/>
+run 9  (280 Airport Codes): 1.593081%<br/>
+run 10 (290 Airport Codes): 1.649977%<br/>
+run 11 (299 Airport Codes): 1.701183%<br/>
+</p></td><td>
+<p><h4>The number of entires in each of the eight buckets:</h4>
+run 1 (200 Airport Codes): [55.0, 28.0, 15.0, 32.0, 21.0, 31.0, 4.0, 14.0]<br/>
+run 2 (210 Airport Codes): [56.0, 25.0, 19.0, 35.0, 24.0, 33.0, 3.0, 15.0]<br/>
+run 3 (220 Airport Codes): [60.0, 31.0, 15.0, 36.0, 27.0, 35.0, 4.0, 12.0]<br/>
+run 4 (230 Airport Codes): [60.0, 27.0, 17.0, 41.0, 22.0, 42.0, 4.0, 17.0]<br/>
+run 5 (240 Airport Codes): [62.0, 32.0, 17.0, 39.0, 26.0, 43.0, 5.0, 16.0]<br/>
+run 6 (250 Airport Codes): [59.0, 37.0, 16.0, 44.0, 28.0, 44.0, 5.0, 17.0]<br/>
+run 7 (260 Airport Codes): [67.0, 33.0, 21.0, 44.0, 29.0, 42.0, 5.0, 19.0]<br/>
+run 8 (270 Airport Codes): [69.0, 38.0, 16.0, 49.0, 29.0, 46.0, 3.0, 20.0]<br/>
+run 9 (280 Airport Codes): [74.0, 39.0, 20.0, 45.0, 31.0, 50.0, 5.0, 16.0]<br/>
+run 10 (290 Airport Codes): [76.0, 39.0, 22.0, 48.0, 33.0, 47.0, 5.0, 20.0]<br/>
+run 11 (299 Airport Codes): [77.0, 40.0, 22.0, 51.0, 33.0, 51.0, 5.0, 20.0]<br/>
+</p></td></tr></table>
+<table cellpadding="8"><tr><td><h4>Fill factors for each individual bucket during each run:</h4></td></tr></table>
+<table cellpadding="8"><tr>
+<td>Fill-factors for run 1 (200 entries):<br/>
+Bucket 0: 2.275831<br/>
+Bucket 1: 1.183432<br/>
+Bucket 2: 0.773782<br/>
+Bucket 3: 1.638598<br/>
+Bucket 4: 1.001365<br/>
+Bucket 5: 1.456532<br/>
+Bucket 6: 0.227583<br/>
+Bucket 7: 0.546199<br/>
+</td>
+<td>Fill-factors for run 2 (210 entries):<br/>
+Bucket 0: 2.503414<br/>
+Bucket 1: 1.183432<br/>
+Bucket 2: 0.682749<br/>
+Bucket 3: 1.775148<br/>
+Bucket 4: 1.001365<br/>
+Bucket 5: 1.593081<br/>
+Bucket 6: 0.227583<br/>
+Bucket 7: 0.591716<br/>
+</td>
+<td>Fill-factors for run 3 (220 entries):<br/>
+Bucket 0: 2.457897<br/>
+Bucket 1: 1.319982<br/>
+Bucket 2: 0.864816<br/>
+Bucket 3: 1.820665<br/>
+Bucket 4: 0.955849<br/>
+Bucket 5: 1.729631<br/>
+Bucket 6: 0.136550<br/>
+Bucket 7: 0.728266<br/>
+</td></tr>
+<tr><td>Fill-factors for run 4 (230 entries):<br/>
+Bucket 0: 2.457897<br/>
+Bucket 1: 1.638598<br/>
+Bucket 2: 0.728266<br/>
+Bucket 3: 2.002731<br/>
+Bucket 4: 0.910332<br/>
+Bucket 5: 1.775148<br/>
+Bucket 6: 0.136550<br/>
+Bucket 7: 0.819299<br/>
+</td>
+<td>Fill-factors for run 5 (240 entries):<br/>
+Bucket 0: 3.049613<br/>
+Bucket 1: 1.547565<br/>
+Bucket 2: 0.682749<br/>
+Bucket 3: 1.911698<br/>
+Bucket 4: 1.183432<br/>
+Bucket 5: 1.638598<br/>
+Bucket 6: 0.091033<br/>
+Bucket 7: 0.819299<br/>
+</td>
+<td>Fill-factors for run 6 (250 entries):<br/>
+Bucket 0: 2.822030<br/>
+Bucket 1: 1.547565<br/>
+Bucket 2: 1.001365<br/>
+Bucket 3: 1.820665<br/>
+Bucket 4: 1.319982<br/>
+Bucket 5: 1.866181<br/>
+Bucket 6: 0.182066<br/>
+Bucket 7: 0.819299<br/>
+</td></tr>
+<tr><td>Fill-factors for run 7 (260 entries):<br/>
+Bucket 0: 3.095130<br/>
+Bucket 1: 1.547565<br/>
+Bucket 2: 0.910332<br/>
+Bucket 3: 1.957214<br/>
+Bucket 4: 1.365498<br/>
+Bucket 5: 1.957214<br/>
+Bucket 6: 0.136550<br/>
+Bucket 7: 0.864816<br/>
+</td>
+<td>Fill-factors for run 8 (270 entries):<br/>
+Bucket 0: 3.140646<br/>
+Bucket 1: 1.684115<br/>
+Bucket 2: 0.910332<br/>
+Bucket 3: 2.093764<br/>
+Bucket 4: 1.365498<br/>
+Bucket 5: 2.093764<br/>
+Bucket 6: 0.136550<br/>
+Bucket 7: 0.864816<br/>
+</td>
+<td>Fill-factors for run 9 (280 entries):<br/>
+Bucket 0: 3.277196<br/>
+Bucket 1: 1.684115<br/>
+Bucket 2: 0.910332<br/>
+Bucket 3: 2.230314<br/>
+Bucket 4: 1.411015<br/>
+Bucket 5: 2.184797<br/>
+Bucket 6: 0.227583<br/>
+Bucket 7: 0.819299<br/>
+</td></tr>
+<tr><td>Fill-factors for run 10 (290 entries):<br/>
+Bucket 0: 3.368229<br/>
+Bucket 1: 1.775148<br/>
+Bucket 2: 1.001365<br/>
+Bucket 3: 2.321347<br/>
+Bucket 4: 1.456532<br/>
+Bucket 5: 2.184797<br/>
+Bucket 6: 0.227583<br/>
+Bucket 7: 0.864816<br/>
+</td>
+<td>Fill-factors for run 11 (299 entries):<br/>
+Bucket 0: 3.504779<br/>
+Bucket 1: 1.820665<br/>
+Bucket 2: 1.001365<br/>
+Bucket 3: 2.321347<br/>
+Bucket 4: 1.502048<br/>
+Bucket 5: 2.321347<br/>
+Bucket 6: 0.227583<br/>
+Bucket 7: 0.910332<br/>
+</td>
+</tr></table><br/>
+<br/>
+<table cellpadding="5"><tr><td><h4>Were the hashfunction to be completely uniform,<br/>we would expect the following per-bucket distribution:</h4><br/>
+<p>Run 1 (200 entries):  25 entries; fill-factor of about 1.14%<br/>
+Run 2 (210 entries):  26 to 27 entries; fill-factor of about 1.19%<br/>
+Run 3 (220 entries):  27 to 28 entries; fill-factor of about 1.25%<br/>
+Run 4 (230 entries):  28 to 29 entries; fill-factor of about 1.31%<br/>
+Run 5 (240 entries):  30 entries; fill-factor of about 1.37%<br/>
+Run 6 (250 entries):  31 to 32 entries; fill-factor of about 1.42%<br/>
+Run 7 (260 entries):  32 to 33 entries; fill-factor of about 1.48%<br/>
+Run 8 (270 entries):  33 to 34 entries; fill-factor of about 1.54%<br/>
+Run 9 (280 entries):  35 entries; fill-factor of about 1.59%<br/>
+Run 10 (290 entries): 36 to 37 entries; fill-factor of about 1.64%<br/>
+Run 11 (299 entries): 37 to 38 entries; fill-factor of about 1.70%</p></td>
+<td><h4>Chi-Squared values for all 11 runs:</h4><br/>
+<p>Run 1 (200 entries): 65.12<br/>
+Run 2 (210 entries): 71.14<br/>
+Run 3 (220 entries): 83.27<br/>
+Run 4 (230 entries): 67.74<br/>
+Run 5 (240 entries): 75.93<br/>
+Run 6 (250 entries): 80.81<br/>
+Run 7 (260 entries): 88.80<br/>
+Run 8 (270 entries): 87.16<br/>
+Run 9 (280 entries): 82.80<br/>
+Run 10 (290 entries): 88.81<br/>
+Run 11 (299 entries): 95.09<br/>
+</p></td></tr></table>
+<h6>Note: Above data were not all gathered at once.  Because the program uses random subsets of the data during it's run, the numbers will not be internally consistent, but instead are simply representative of basic trends in the data.  The data in each particular table, however, is all from one run and therefore accurate for analysis purposes.</h6>
+<h3>Conclusion:</h3>
+<div style="float: right; padding: 3px;"><img src="graph.png"/></div>
+<div><p>Based on the results obtained above it appears that with this particular hash function, uniformity is approximately linearly proportional to fill-factor.  With the smallest data set of 200 entries, the fill factor was 1.37915% and the chi-squared value was 65.12.  With the largest data set of 299 entries, the fill factor was 1.701183% and the chi-squared value was 95.09.  The relationship between the two is illustrated in the graph to the right.  With the graph, it can easily be seen that the growth of Chi-squared is very similar to the graph of y=18x+62, with the variations being caused by the random nature of the data.  So the relation is O(x).  This approximation, becomes even more obvious when we look at the data provided for the full range of sizes (0 - 299).  This can be seen in the graph below.
+</p></div>
+<div style="float: left; padding: 3px;"><img src="graph2.png"/></div>
+<div><p>Based on this, it would seem that in order to optimize the uniformity of the function we would want to reduce the fill-factor.  In the above data, the table with 299 entries had a chi-squared value of almost twice that of the table with only 200 entries.  So if we wanted to increase the uniformity by decreasing the fill-factor we could either increase the size of the table or decrease the amount of data being entered into it.  Because the integrity of the data set is generally more important than the size of the table, the latter would be unadvisable.  The solution, therefore is to increase the table size in order to minimize the fill-factor and therefore maximize the uniformity.  This however would result in increasing the inefficiency, and since less than 2% of the table is being used for the data set anyway leaving over 98% of the space being wasted, purposefully increasing the memory wasted on this table does not seem like a particularly good idea in this instance.  In a general case, this method could be reasonably applied depending upon the memory considerations and limitations of the system being worked with and the purpose of the table.
+</p>
+<p>Given the nature of the data being worked with here (a very small and non-random subset of the total possible airport codes) and the results obtained, it seems quite likely that the lack of uniformity may simply have been a result of the particular subset of airport codes that provided by <a href="prog04d.txt">prog04d.txt</a>.  A different random subset of airport codes might prove to be more or less uniform for this hash function, potentially it would be possible to generate a random subset that would provide perfect uniformity.  And it would certainly be possible to hand-pick such a subset, the complete set of all possible airport codes being one obvious example, although in that case the table would need to be modified to deal with collisions as the hash function does not provide enough unique keys for that many entries.  If we examine extreme cases such as this, we find that very high fill-factors (such as 90%+) actually provide very good uniformity.
+</p></div>
+<div style="float: left; padding: 3px;"><img src="normal.gif"/>
+<h6>Note: This graph is not derived from experimental data.</h6></div>
+<div><p>This can be easily seen by considering the case of the complete set of all airport codes.  If we were to hash the entire set of airport codes into this table we would end up with a fill factor of 100%.  The fill factor of each bucket would also be 100%, and the chi-squared value would be 0.  So in fact the opposite of the solution proposed above is true.  To maximize uniformity, we <b>maximize</b> fill-factor.  Instead of increasing the table size, we instead decrease it and acheive the same results.  And in this case we actually increase efficiency rather than decrease it.
+</p>
+<p>With this in mind we can see when we consider chi-squared as a function of fill-factor---over the entire range of the fill-factor rather than just a very small segment of it---that the relationship is not actually linear at all.  Instead it can be much more accurately represented as a bell curve, as seen to the left.  The data obtained through my experimentation and the graph above represent only a very small segment of the curve.  Optimizing the uniformity of a hash, therefore, is a matter of avoiding the middle cases which form the peak of the bell curve.  So long as memory usage and the size of the table are a consideration, the optimal solution will always fall on the right side of the bell curve, closer to 100% fill.</p>
+<p>In the particular case of this experiment, the optimal solution would be to reduce the size of the table to exactly 299 entries.  When the data from <a href="prog04d.txt">prog04d.txt</a> is put into such a table, the fill-factor will be 100% and the chi-squared value will be 0.  In a more general case where the table may need to hold more data in the future than is currently available, a table that grows as things are added maintaining a fill-factor as close to 100% as is reasonable considering the overhead of expanding the table would be the way to go in order to maintain high uniformity and efficiency.
+</p></div>
+</div>
+
+<div id="body">
+<table width="100%"><tr><td><h3>Files:</h3></td>
+<td><a href="hashtable.python">hashtable.python</a></td>
+<td><a href="prog04d.txt">prog04d.txt</a></td>
+</tr>
+</table>
+</div>
+<div id="body">
+<address>Joshua Ourisman</address>
+<!-- hhmts start -->Last modified: Thu Feb 26 16:39:31 CST 2004 <!-- hhmts end -->
+</div>
+
+</body>
+</html>
